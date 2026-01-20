@@ -1,9 +1,11 @@
 package com.Harshit.UniversityErp_Faculty;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -19,15 +21,14 @@ public class FacultyController {
     }
 
     @PostMapping("/Faculty")
-    public void addFaculty(@RequestBody Faculty faculty){
-        if(faculty != null){
-            service.addFaculty(faculty);
-        }
+    public ResponseEntity<Faculty> addFaculty(@RequestBody Faculty faculty){
+        service.addFaculty(faculty);
+        return ResponseEntity.ok().body(faculty);
     }
 
     @GetMapping("{facultyId}")
-    public Faculty getFacultyById(@PathVariable String FacultyId){
-        Faculty faculty = service.getFacultyById(FacultyId);
-        return faculty;
+    public ResponseEntity<Faculty> getFacultyById(@PathVariable String FacultyId){
+        Optional<Faculty> faculty = service.getFacultyById(FacultyId);
+        return faculty.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
