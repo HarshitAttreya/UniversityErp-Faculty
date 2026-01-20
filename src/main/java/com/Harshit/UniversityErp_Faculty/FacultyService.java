@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FacultyService {
@@ -19,7 +20,8 @@ public class FacultyService {
         Faculty save = facultyRepository.save(faculty);
     }
 
-    public Faculty getFacultyById(String FacultyId){
-        return facultyRepository.findById(FacultyId).get();
+    public Optional<Faculty> getFacultyById(String FacultyId){
+
+        return facultyRepository.findById(FacultyId);
     }
 }
